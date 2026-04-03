@@ -62,13 +62,9 @@ struct Course {
 void parse_csv(std::string filename, std::vector<Course> &courses) {
   /* (STUDENT TODO) Your code goes here... */
   std::ifstream fin(filename);
-  if (fin.is_open()) {
-    std::string line;
-    size_t n = 0;
+  std::string line;
+  if (std::getline(fin, line)) {
     while (std::getline(fin, line)) {
-      if (n++ == 0) {
-        continue;
-      }
       std::vector<std::string> vec = split(line, ',');
       Course course{vec[0], vec[1], vec[2]};
       courses.push_back(course);
@@ -97,17 +93,20 @@ void parse_csv(std::string filename, std::vector<Course> &courses) {
  */
 void write_courses_offered(std::vector<Course> &all_courses) {
   /* (STUDENT TODO) Your code goes here... */
-  std::vector<Course> copyOfCourses = all_courses;
+  std::vector<Course> courses_to_delete;
   std::ofstream fout(COURSES_OFFERED_PATH);
   if (fout.is_open()) {
-    fout << "Title,Number of Units,Quarter" << std::endl;
-    for (auto &elem : copyOfCourses) {
+    fout << "Title,Number of Units,Quarter" << '\n';
+    for (auto &elem : all_courses) {
       // std::string line;
       if (elem.quarter != "null") {
         fout << elem.title << "," << elem.number_of_units << "," << elem.quarter
-             << std::endl;
-        delete_elem_from_vector(all_courses, elem);
+             << '\n';
+        courses_to_delete.push_back(elem);
       }
+    }
+    for (auto &elem : courses_to_delete) {
+      delete_elem_from_vector(all_courses, elem);
     }
   }
 }
@@ -125,14 +124,14 @@ void write_courses_offered(std::vector<Course> &all_courses) {
  *
  * @param unlisted_courses A vector of courses that are not offered.
  */
-void write_courses_not_offered(std::vector<Course> unlisted_courses) {
+void write_courses_not_offered(std::vector<Course> &unlisted_courses) {
   /* (STUDENT TODO) Your code goes here... */
   std::ofstream fout(COURSES_NOT_OFFERED_PATH);
   if (fout.is_open()) {
-    fout << "Title,Number of Units,Quarter" << std::endl;
+    fout << "Title,Number of Units,Quarter" << '\n';
     for (auto &elem : unlisted_courses) {
       fout << elem.title << "," << elem.number_of_units << "," << elem.quarter
-           << std::endl;
+           << '\n';
     }
   }
 }
