@@ -127,6 +127,14 @@ void write_courses_offered(std::vector<Course> &all_courses) {
  */
 void write_courses_not_offered(std::vector<Course> unlisted_courses) {
   /* (STUDENT TODO) Your code goes here... */
+  std::ofstream fout(COURSES_NOT_OFFERED_PATH);
+  if (fout.is_open()) {
+    fout << "Title,Number of Units,Quarter" << std::endl;
+    for (auto &elem : unlisted_courses) {
+      fout << elem.title << "," << elem.number_of_units << "," << elem.quarter
+           << std::endl;
+    }
+  }
 }
 
 int main() {
