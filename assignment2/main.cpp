@@ -14,6 +14,7 @@
 #include <set>
 #include <string>
 #include <unordered_set>
+#include <sstream>
 
 std::string kYourName = "Jiale Shi"; // Don't forget to change this!
 
@@ -50,7 +51,13 @@ std::set<std::string> get_applicants(std::string filename) {
  * @return          A queue containing pointers to each matching name.
  */
 bool eq_init_name(std::string one, std::string two){
-  return true;
+  std::vector<std::string> v;
+  std::stringstream ss(one + " " + two);
+  std::string token;
+  while(std::getline(ss, token, ' ')){
+    v.push_back(token);
+  }
+  return v[0][0] == v[2][0] && v[1][0] == v[3][0];
 }
 std::queue<const std::string *> find_matches(std::string name,
                                              std::set<std::string> &students) {
@@ -76,8 +83,7 @@ std::queue<const std::string *> find_matches(std::string name,
  */
 std::string get_match(std::queue<const std::string *> &matches) {
   // STUDENT TODO: Implement this function.
-  auto student = matches.pop(); 
-  return *(student);
+  return *(matches.front());
 }
 
 /* #### Please don't remove this line! #### */
