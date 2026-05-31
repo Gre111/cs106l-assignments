@@ -23,8 +23,8 @@ public:
   ~User();
   User(const User& user);
   User& operator = (const User& user);
-  // User(User&& user) = delete;              // 4. 禁止移动构造
-  // User& operator=(User&& user) = delete;   // 5. 禁止移动赋值
+  User(User&& user) = delete;
+  User& operator=(User&& user) = delete;
 
   User& operator +=(User& rhs);
   bool operator <(const User& rhs) const;
